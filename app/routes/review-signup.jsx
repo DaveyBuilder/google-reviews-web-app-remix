@@ -1,6 +1,7 @@
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 
 export async function action({ request }) {
+    console.log("Running action function");
     const formData = await request.formData();
     // Process formData...
     const customerName = formData.get("customerName");
@@ -8,10 +9,11 @@ export async function action({ request }) {
     // Add validation or processing logic here
     
 
-    return { success: "Thank you for your submission!" };
+    return { success: "Customer successfully added to mailing list" };
 }
 
 export default function ReviewSignup() {
+    console.log("Rendering ReviewSignup Component")
     const actionData = useActionData();
     const navigation = useNavigation();
     const isSubmitting = navigation.state === "submitting";
@@ -20,7 +22,7 @@ export default function ReviewSignup() {
         <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
             <Form method="post" className="space-y-6">
                 <div>
-                    <label htmlFor="customerName" className="block text-sm font-medium text-gray-700">Customer Name</label>
+                    <label htmlFor="customerName" className="block text-sm font-medium text-gray-700">Customer First Name</label>
                     <input type="text" name="customerName" id="customerName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 sm:text-sm" style={{height: '2.5rem'}} required />
                 </div>
                 <div>
