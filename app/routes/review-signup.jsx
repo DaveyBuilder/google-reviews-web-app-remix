@@ -1,40 +1,108 @@
+import { useEffect } from 'react';
 import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { connectDB } from "../../utils/db";
+import confetti from 'canvas-confetti';
 
 export async function action({ request }) {
-    console.log("Running action function");
+    console.log("Starting action function");
+    //await new Promise((res) => setTimeout(res, 1000));
     const formData = await request.formData();
-    // Process formData...
+    const errors = {};
+
+    // Validate customer name
+    if (!formData.get("customerName").trim()) {
+      console.log("Action validation failed - Customer name is required.");
+      errors.customerName = "Customer name is required.";
+    }
+
+    // Validate customer email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.get("customerEmail"))) {
+        console.log("Action validation failed - Customer email is invalid.");
+        errors.customerEmail = "Please enter a valid email address.";
+    }
+
+    // If there are any errors, return them to the form
+    if (Object.keys(errors).length > 0) {
+        console.log("Returning errors to the form.");
+        return { errors };
+    }
+
     const customerName = formData.get("customerName");
     const customerEmail = formData.get("customerEmail");
-    // Add validation or processing logic here
-    
 
-    return { success: "Customer successfully added to mailing list" };
+    const db = connectDB();
+    try {
+      const result = await new Promise((resolve, reject) => {
+        db.run(`INSERT INTO customers (first_name, email, sent_first_email, sent_second_email, sent_third_email) VALUES (?, ?, ?, ?, ?)`, 
+        [customerName, customerEmail, 0, 0, 0], 
+        function(err) {
+          if (err) {
+            // Check if the error is due to a duplicate email
+            if (err.message.includes("UNIQUE constraint failed: customers.email")) {
+              console.error("Duplicate email error:", err.message);
+              reject({ error: "This email address has already been added to the mailing list" });
+            } else {
+              console.error("Database error:", err.message);
+              reject({ error: "Failed to add customer to the database" });
+            }
+          } else {
+            console.log(`A row has been inserted with rowid ${this.lastID}`);
+            resolve({ success: "Customer successfully added to mailing list", timestamp: Date.now() });
+          }
+        });
+      });
+      return result;
+    } catch (error) {
+      console.error("Caught an error in the action function:", error);
+      return error;
+    } finally {
+      db.close();
+    }
 }
 
 export default function ReviewSignup() {
-    console.log("Rendering ReviewSignup Component")
-    const actionData = useActionData();
-    const navigation = useNavigation();
-    const isSubmitting = navigation.state === "submitting";
+  console.log("Rendering ReviewSignup Component")
+  const actionData = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
 
-    return (
-        <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <Form method="post" className="space-y-6">
+  // Trigger confetti when there is a success message
+  useEffect(() => {
+    if (actionData?.success) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+  }, [actionData?.success, actionData?.timestamp]); // Add actionData?.timestamp as a dependency
+
+  return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-lg mx-auto p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200">
+            <Form method="post" className="space-y-8">
                 <div>
-                    <label htmlFor="customerName" className="block text-sm font-medium text-gray-700">Customer First Name</label>
-                    <input type="text" name="customerName" id="customerName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 sm:text-sm" style={{height: '2.5rem'}} required />
+                    <label htmlFor="customerName" className="block text-base font-medium text-gray-700">Customer First Name</label>
+                    <input type="text" name="customerName" id="customerName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
+                    {actionData?.errors?.customerName && (
+                      <p className="text-red-600 mt-2 text-base">{actionData.errors.customerName}</p>
+                    )}
                 </div>
                 <div>
-                    <label htmlFor="customerEmail" className="block text-sm font-medium text-gray-700">Customer Email</label>
-                    <input type="email" name="customerEmail" id="customerEmail" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 sm:text-sm" style={{height: '2.5rem'}} required />
+                    <label htmlFor="customerEmail" className="block text-base font-medium text-gray-700">Customer Email</label>
+                    <input type="email" name="customerEmail" id="customerEmail" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
+                    {actionData?.errors?.customerEmail && (
+                      <p className="text-red-600 mt-2 text-base">{actionData.errors.customerEmail}</p>
+                    )}
                 </div>
-                <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" style={{height: '2.5rem'}}>
-                    {isSubmitting ? "Submitting..." : "Submit"}
+                <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" style={{height: '3.125rem'}}>
+                    {isSubmitting ? "Submitting..." : "Request Google Review"}
                 </button>
             </Form>
-            {actionData?.success && <p className="mt-3 text-center text-sm text-green-600">{actionData.success}</p>}
-            {/* Optionally handle and display errors from actionData */}
+            {actionData?.success && <p className="mt-3 text-center text-base text-green-600">{actionData.success}</p>}
+            {actionData?.error && <p className="text-red-600 mt-3 text-center text-base">{actionData.error}</p>}
         </div>
-    );
+      </div>
+  );
 }
