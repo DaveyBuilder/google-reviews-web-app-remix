@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Form, useActionData, useNavigation } from "@remix-run/react";
-import { connectDB } from "../../utils/db";
+import { supabase } from "../../utils/supabaseClient";
 import confetti from 'canvas-confetti';
 
 export async function action({ request }) {
@@ -31,33 +31,23 @@ export async function action({ request }) {
     const customerName = formData.get("customerName");
     const customerEmail = formData.get("customerEmail");
 
-    const db = connectDB();
     try {
-      const result = await new Promise((resolve, reject) => {
-        db.run(`INSERT INTO customers (first_name, email, sent_first_email, sent_second_email, sent_third_email) VALUES (?, ?, ?, ?, ?)`, 
-        [customerName, customerEmail, 0, 0, 0], 
-        function(err) {
-          if (err) {
-            // Check if the error is due to a duplicate email
-            if (err.message.includes("UNIQUE constraint failed: customers.email")) {
-              console.error("Duplicate email error:", err.message);
-              reject({ error: "This email address has already been added to the mailing list" });
-            } else {
-              console.error("Database error:", err.message);
-              reject({ error: "Failed to add customer to the database" });
-            }
-          } else {
-            console.log(`A row has been inserted with rowid ${this.lastID}`);
-            resolve({ success: "Customer successfully added to mailing list", timestamp: Date.now() });
-          }
-        });
-      });
-      return result;
+      const { data, error } = await supabase
+        .from('signed-up-customers')
+        .insert([
+          { first_name: customerName, email: customerEmail }
+        ]);
+
+      if (error) {
+        console.error("Supabase error:", error.message);
+        return { error: "Failed to add customer to the database" };
+      } else {
+        console.log("Customer successfully added to mailing list", data);
+        return { success: "Customer successfully added to mailing list", timestamp: Date.now() };
+      }
     } catch (error) {
       console.error("Caught an error in the action function:", error);
-      return error;
-    } finally {
-      db.close();
+      return { error: "An unexpected error occurred" };
     }
 }
 

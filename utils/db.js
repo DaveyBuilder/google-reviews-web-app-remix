@@ -3,7 +3,7 @@ const { verbose } = sqlite3;
 
 function connectDB() {
     console.log('Connecting to the SQLite database...');
-    const db = new (verbose().Database)('./glh-google-review-db-local.db', sqlite3.OPEN_READWRITE, (err) => {
+    const db = new (verbose().Database)('/data/example.db', sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
             console.error(err.message);
         }
