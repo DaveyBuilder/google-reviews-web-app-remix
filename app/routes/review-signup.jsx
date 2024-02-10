@@ -5,7 +5,6 @@ import confetti from 'canvas-confetti';
 
 export async function action({ request }) {
     console.log("Starting action function");
-    //await new Promise((res) => setTimeout(res, 1000));
     const formData = await request.formData();
     const errors = {};
 
@@ -40,7 +39,11 @@ export async function action({ request }) {
 
       if (error) {
         console.error("Supabase error:", error.message);
+        if (error.message.includes("duplicate key value violates unique constraint")) {
+          return { error: "This email address has already been added" };
+        } else {
         return { error: "Failed to add customer to the database" };
+        }
       } else {
         console.log("Customer successfully added to mailing list", data);
         return { success: "Customer successfully added to mailing list", timestamp: Date.now() };

@@ -7,3 +7,6 @@ node_modules
 
 *.txt
 *.db
+
+fly.toml
+Dockerfile
