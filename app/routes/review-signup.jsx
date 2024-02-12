@@ -21,6 +21,12 @@ export async function action({ request }) {
         errors.customerEmail = "Please enter a valid email address.";
     }
 
+    // Validate staff name
+    if (formData.get("staffName") === "") {
+      console.log("Action validation failed - Staff name is required.");
+      errors.staffName = "Staff name is required.";
+  }
+
     // If there are any errors, return them to the form
     if (Object.keys(errors).length > 0) {
         console.log("Returning errors to the form.");
@@ -29,12 +35,13 @@ export async function action({ request }) {
 
     const customerName = formData.get("customerName");
     const customerEmail = formData.get("customerEmail");
+    const staffName = formData.get("staffName");
 
     try {
       const { data, error } = await supabase
         .from('signed-up-customers')
         .insert([
-          { first_name: customerName, email: customerEmail }
+          { customer_first_name: customerName, customer_email: customerEmail, staff_member: staffName}
         ]);
 
       if (error) {
@@ -88,6 +95,15 @@ export default function ReviewSignup() {
                     {actionData?.errors?.customerEmail && (
                       <p className="text-red-600 mt-2 text-base">{actionData.errors.customerEmail}</p>
                     )}
+                </div>
+                <div>
+                    <label htmlFor="staffName" className="block text-base font-medium text-gray-700">Staff Name</label>
+                    <select name="staffName" id="staffName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" required>
+                        <option value="">-Select-</option>
+                        <option value="Gina">Gina</option>
+                        <option value="Nicole">Nicole</option>
+                        <option value="Megan">Megan</option>
+                    </select>
                 </div>
                 <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" style={{height: '3.125rem'}}>
                     {isSubmitting ? "Submitting..." : "Request Google Review"}
