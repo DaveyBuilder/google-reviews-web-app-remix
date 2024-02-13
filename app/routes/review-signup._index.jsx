@@ -81,7 +81,9 @@ export default function ReviewSignup() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="text-center mb-4 w-full">
-        <Link to="leaderboard" className="text-indigo-600 hover:text-indigo-800">View Leaderboard</Link>
+        <Link to="leaderboard" className="text-indigo-600 hover:text-indigo-800 font-bold text-lg bg-gradient-to-r from-yellow-400 to-pink-500 py-2 px-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out">
+          🏆 View Leaderboard 🏆
+        </Link>
       </div>
       <div className="w-full max-w-lg p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200">
       <Form method="post" className="space-y-8">
@@ -109,8 +111,8 @@ export default function ReviewSignup() {
                     </select>
                 </div>
                 <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" style={{height: '3.125rem'}}>
-                    {isSubmitting ? "Submitting..." : "Request Google Review"}
-                </button>
+                  {isSubmitting ? "🔄 Submitting..." : "Request Google Review"}
+              </button>
             </Form>
             {actionData?.success && <p className="mt-3 text-center text-base text-green-600">{actionData.success}</p>}
             {actionData?.error && <p className="text-red-600 mt-3 text-center text-base">{actionData.error}</p>}
