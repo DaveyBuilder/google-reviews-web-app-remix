@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigation, Link } from "@remix-run/react";
 import { supabase } from "../../utils/supabaseClient";
 import confetti from 'canvas-confetti';
 
@@ -79,9 +79,12 @@ export default function ReviewSignup() {
   }, [actionData?.success, actionData?.timestamp]); // Add actionData?.timestamp as a dependency
 
   return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-full max-w-lg mx-auto p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200">
-            <Form method="post" className="space-y-8">
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="text-center mb-4 w-full">
+        <Link to="leaderboard" className="text-indigo-600 hover:text-indigo-800">View Leaderboard</Link>
+      </div>
+      <div className="w-full max-w-lg p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200">
+      <Form method="post" className="space-y-8">
                 <div>
                     <label htmlFor="customerName" className="block text-base font-medium text-gray-700">Customer First Name</label>
                     <input type="text" name="customerName" id="customerName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
