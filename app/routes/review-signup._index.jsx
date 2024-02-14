@@ -104,14 +104,20 @@ export default function ReviewSignup() {
                 <div>
                     <label htmlFor="staffName" className="block text-base font-medium text-gray-700">Staff Name</label>
                     <select name="staffName" id="staffName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" required>
-                        <option value="">-Select-</option>
+                    <option value="">-Select-</option>
+                        <option value="Ashley">Ashley</option>
+                        <option value="Dean">Dean</option>
                         <option value="Gina">Gina</option>
-                        <option value="Nicole">Nicole</option>
+                        <option value="Krissie">Krissie</option>
+                        <option value="Margaret">Margaret</option>
                         <option value="Megan">Megan</option>
+                        <option value="Sandra">Sandra</option>
+                        <option value="Steve">Steve</option>
+                        <option value="Sue">Sue</option>
                     </select>
                 </div>
                 <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" style={{height: '3.125rem'}}>
-                  {isSubmitting ? "🔄 Submitting..." : "Request Google Review"}
+                  {isSubmitting ? "Submitting..." : "Request Google Review"}
               </button>
             </Form>
             {actionData?.success && <p className="mt-3 text-center text-base text-green-600">{actionData.success}</p>}
