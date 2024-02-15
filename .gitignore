@@ -10,3 +10,5 @@ node_modules
 
 fly.toml
 Dockerfile
+
+public/*.jpg

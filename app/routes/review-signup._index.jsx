@@ -85,44 +85,47 @@ export default function ReviewSignup() {
           🏆 View Leaderboard 🏆
         </Link>
       </div>
-      <div className="w-full max-w-lg p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200">
-      <Form method="post" className="space-y-8">
-                <div>
-                    <label htmlFor="customerName" className="block text-base font-medium text-gray-700">Customer First Name</label>
-                    <input type="text" name="customerName" id="customerName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
-                    {actionData?.errors?.customerName && (
-                      <p className="text-red-600 mt-2 text-base">{actionData.errors.customerName}</p>
-                    )}
-                </div>
-                <div>
-                    <label htmlFor="customerEmail" className="block text-base font-medium text-gray-700">Customer Email</label>
-                    <input type="email" name="customerEmail" id="customerEmail" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
-                    {actionData?.errors?.customerEmail && (
-                      <p className="text-red-600 mt-2 text-base">{actionData.errors.customerEmail}</p>
-                    )}
-                </div>
-                <div>
-                    <label htmlFor="staffName" className="block text-base font-medium text-gray-700">Staff Name</label>
-                    <select name="staffName" id="staffName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" required>
-                    <option value="">-Select-</option>
-                        <option value="Ashley">Ashley</option>
-                        <option value="Dean">Dean</option>
-                        <option value="Gina">Gina</option>
-                        <option value="Krissie">Krissie</option>
-                        <option value="Margaret">Margaret</option>
-                        <option value="Megan">Megan</option>
-                        <option value="Sandra">Sandra</option>
-                        <option value="Steve">Steve</option>
-                        <option value="Sue">Sue</option>
-                    </select>
-                </div>
-                <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" style={{height: '3.125rem'}}>
-                  {isSubmitting ? "Submitting..." : "Request Google Review"}
-              </button>
-            </Form>
-            {actionData?.success && <p className="mt-3 text-center text-base text-green-600">{actionData.success}</p>}
-            {actionData?.error && <p className="text-red-600 mt-3 text-center text-base">{actionData.error}</p>}
-        </div>
+      <div className="w-full max-w-lg p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200 mx-auto">
+        <Form method="post" className="space-y-8">
+          <div>
+            <label htmlFor="customerName" className="block text-base font-medium text-gray-700">Customer First Name</label>
+            <input type="text" name="customerName" id="customerName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
+            {actionData?.errors?.customerName && (
+              <p className="text-red-600 mt-2 text-base">{actionData.errors.customerName}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="customerEmail" className="block text-base font-medium text-gray-700">Customer Email</label>
+            <input type="email" name="customerEmail" id="customerEmail" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" style={{height: '3.125rem'}} required />
+            {actionData?.errors?.customerEmail && (
+              <p className="text-red-600 mt-2 text-base">{actionData.errors.customerEmail}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="staffName" className="block text-base font-medium text-gray-700">Staff Name</label>
+            <select name="staffName" id="staffName" className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:bg-white focus:ring-1 focus:ring-indigo-500 text-lg" required>
+              <option value="">-Select-</option>
+              <option value="Ashley">Ashley</option>
+              <option value="Dean">Dean</option>
+              <option value="Gina">Gina</option>
+              <option value="Krissie">Krissie</option>
+              <option value="Margaret">Margaret</option>
+              <option value="Megan">Megan</option>
+              <option value="Sandra">Sandra</option>
+              <option value="Steve">Steve</option>
+              <option value="Sue">Sue</option>
+            </select>
+          </div>
+          <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" style={{height: '3.125rem'}}>
+            {isSubmitting ? "Submitting..." : "Request Google Review"}
+          </button>
+        </Form>
+        {actionData?.success && <p className="mt-3 text-center text-base text-green-600">{actionData.success}</p>}
+        {actionData?.error && <p className="text-red-600 mt-3 text-center text-base">{actionData.error}</p>}
       </div>
+      <div className="mt-4 w-full max-w-lg mx-auto">
+        <img src="/branding_banner.jpg" alt="Banner" className="w-full h-auto" />
+      </div>
+    </div>
   );
 }
