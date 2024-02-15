@@ -31,7 +31,7 @@ export default function Leaderboard() {
       {leaderboardData.monthly.length > 0 ? (
         <div className="overflow-hidden rounded-lg shadow-xl mb-10">
           <div className="flex justify-between px-4 py-2 bg-gradient-to-r from-orange-400 to-pink-500 text-white font-bold">
-            <span>Monthly</span>
+            <span>This Month</span>
             <span>Number of Reviews Requested</span>
           </div>
           <ul className="divide-y divide-gray-200">
