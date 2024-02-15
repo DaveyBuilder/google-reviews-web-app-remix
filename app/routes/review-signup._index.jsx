@@ -39,7 +39,7 @@ export async function action({ request }) {
 
     try {
       const { data, error } = await supabase
-        .from('signed-up-customers')
+        .from(process.env.TABLE_NAME)
         .insert([
           { customer_first_name: customerName, customer_email: customerEmail, staff_member: staffName}
         ]);
