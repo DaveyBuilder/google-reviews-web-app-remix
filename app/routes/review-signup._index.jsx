@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Form, useActionData, useNavigation, Link } from "@remix-run/react";
 import { supabase } from "../../utils/supabaseClient";
 import confetti from 'canvas-confetti';
+import { correctCommonEmailTypos } from "../../utils/emailUtils";
 
 export async function action({ request }) {
     console.log("Starting action function");
@@ -14,11 +15,20 @@ export async function action({ request }) {
       errors.customerName = "Customer name is required.";
     }
 
-    // Validate customer email
+    // Validate customer email with typo correction
+    const email = formData.get("customerEmail");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.get("customerEmail"))) {
+    if (!emailRegex.test(email)) {
         console.log("Action validation failed - Customer email is invalid.");
         errors.customerEmail = "Please enter a valid email address.";
+    } else {
+        // Check for common typos and suggest corrections
+        // correctCommonEmailTypos function is in utils/emailUtils.js
+        const correctedEmail = correctCommonEmailTypos(email);
+        if (correctedEmail !== email) {
+            console.log(`Action validation failed - Did you mean ${correctedEmail}?`);
+            errors.customerEmail = `Did you mean ${correctedEmail}?`;
+        }
     }
 
     // Validate staff name
