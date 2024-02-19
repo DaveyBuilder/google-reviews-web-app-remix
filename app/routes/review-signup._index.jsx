@@ -89,13 +89,13 @@ export default function ReviewSignup() {
   }, [actionData?.success, actionData?.timestamp]); // Add actionData?.timestamp as a dependency
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen pt-2">
       <div className="text-center mb-4 w-full">
         <Link to="leaderboard" className="text-indigo-600 hover:text-indigo-800 font-bold text-lg bg-gradient-to-r from-yellow-400 to-pink-500 py-2 px-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out">
           🏆 View Leaderboard 🏆
         </Link>
       </div>
-      <div className="w-full max-w-lg p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200 mx-auto">
+      <div className="w-full max-w-lg p-8 bg-gradient-to-b from-white to-gray-50 rounded-lg shadow border border-gray-200 mx-auto flex flex-col">
         <Form method="post" className="space-y-8">
           <div>
             <label htmlFor="customerName" className="block text-base font-medium text-gray-700">Customer First Name</label>
