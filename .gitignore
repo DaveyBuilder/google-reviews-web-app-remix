@@ -12,3 +12,4 @@ fly.toml
 Dockerfile
 
 public/*.jpg
+public/*.png
