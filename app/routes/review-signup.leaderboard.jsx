@@ -25,7 +25,7 @@ export default function Leaderboard() {
   const leaderboardData = useLoaderData();
   return (
     <section className="max-w-4xl mx-auto p-4 animate-fadeIn">
-      <div className="text-center mb-4">
+      <div className="mb-4">
         <Link to="/review-signup" className="text-orange-500 hover:text-orange-700 font-medium text-lg py-2 px-4 rounded-lg border border-orange-500 hover:border-orange-700 transition-colors duration-200 ease-in-out">
           ← Back to Signup
         </Link>
