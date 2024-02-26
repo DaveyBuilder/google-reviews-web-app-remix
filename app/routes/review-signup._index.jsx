@@ -91,7 +91,7 @@ export default function ReviewSignup() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-2">
       <div className="text-center mb-4 w-full">
-        <Link to="leaderboard" className="text-indigo-600 hover:text-indigo-800 font-bold text-lg bg-gradient-to-r from-yellow-400 to-pink-500 py-2 px-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out">
+        <Link to="leaderboard" className="text-orange-500 hover:text-orange-700 font-medium text-lg py-2 px-4 rounded-lg border border-orange-500 hover:border-orange-700 transition-colors duration-200 ease-in-out">
           🏆 View Leaderboard 🏆
         </Link>
       </div>

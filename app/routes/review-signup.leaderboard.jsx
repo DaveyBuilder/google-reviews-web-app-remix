@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { supabase } from "../../utils/supabaseClient";
 
@@ -25,6 +25,11 @@ export default function Leaderboard() {
   const leaderboardData = useLoaderData();
   return (
     <section className="max-w-4xl mx-auto p-4 animate-fadeIn">
+      <div className="text-center mb-4">
+        <Link to="/review-signup" className="text-orange-500 hover:text-orange-700 font-medium text-lg py-2 px-4 rounded-lg border border-orange-500 hover:border-orange-700 transition-colors duration-200 ease-in-out">
+          ← Back to Signup
+        </Link>
+      </div>
       <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">🏆 Leaderboard 🏆</h2>
       
       {/* Monthly Leaderboard */}
