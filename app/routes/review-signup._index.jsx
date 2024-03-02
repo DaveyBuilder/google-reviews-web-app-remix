@@ -10,29 +10,34 @@ export async function action({ request }) {
     const errors = {};
 
     // Validate customer name
-    if (!formData.get("customerName").trim()) {
+    const customerName = formData.get("customerName").trim();
+    if (!customerName) {
       console.log("Action validation failed - Customer name is required.");
       errors.customerName = "Customer name is required.";
+    } else if (customerName.includes(" ")) { // Check if the name contains spaces
+      console.log("Action validation failed - Please enter only the first name.");
+      errors.customerName = "Please enter only the first name.";
     }
 
     // Validate customer email with typo correction
-    const email = formData.get("customerEmail");
+    const customerEmail = formData.get("customerEmail").trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(customerEmail)) {
         console.log("Action validation failed - Customer email is invalid.");
         errors.customerEmail = "Please enter a valid email address.";
     } else {
         // Check for common typos and suggest corrections
         // correctCommonEmailTypos function is in utils/emailUtils.js
-        const correctedEmail = correctCommonEmailTypos(email);
-        if (correctedEmail !== email) {
+        const correctedEmail = correctCommonEmailTypos(customerEmail);
+        if (correctedEmail !== customerEmail) {
             console.log(`Action validation failed - Did you mean ${correctedEmail}?`);
             errors.customerEmail = `Did you mean ${correctedEmail}?`;
         }
     }
 
     // Validate staff name
-    if (formData.get("staffName") === "") {
+    const staffName = formData.get("staffName");
+    if (staffName === "") {
       console.log("Action validation failed - Staff name is required.");
       errors.staffName = "Staff name is required.";
   }
@@ -42,10 +47,6 @@ export async function action({ request }) {
         console.log("Returning errors to the form.");
         return { errors };
     }
-
-    const customerName = formData.get("customerName");
-    const customerEmail = formData.get("customerEmail");
-    const staffName = formData.get("staffName");
 
     try {
       const { data, error } = await supabase
