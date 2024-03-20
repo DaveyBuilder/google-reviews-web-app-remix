@@ -121,7 +121,7 @@ export default function ReviewSignup() {
               <option value="Gina">Gina</option>
               <option value="Krissie">Krissie</option>
               <option value="Margaret">Margaret</option>
-              <option value="Megan">Megan</option>
+              <option value="Miles">Miles</option>
               <option value="Sandra">Sandra</option>
               <option value="Steve">Steve</option>
               <option value="Sue">Sue</option>
